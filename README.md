@@ -29,5 +29,6 @@ It includes **Swagger UI** for API documentation and an **H2 in-memory database*
 ## 🎯 Next Steps
 - Implement **unit tests**.
 
+## High Level Diagram
 
-
+img
