@@ -30,5 +30,5 @@ It includes **Swagger UI** for API documentation and an **H2 in-memory database*
 - Implement **unit tests**.
 
 ## High Level Diagram
+![alt text](https://github.com/Thiagodoy/crud-commerce/blob/main/doc/naxistia-test.drawio.png)
 
-img
