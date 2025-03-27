@@ -14,7 +14,7 @@ It includes **Swagger UI** for API documentation and an **H2 in-memory database*
 ---
 
 ###  Access the API:
-- **Swagger UI:** [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html)
+- **Swagger UI:** [`http://api.thiagodoy.com:8080/swagger-ui/index.html`](http://api.thiagodoy.com:8080/swagger-ui/index.html)
     - **email:** `natixis@natixis.com`
     - **password:** `123456`
 ---

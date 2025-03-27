@@ -117,32 +117,44 @@ class ProductControllerIT {
 
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({
+            "4, Laptop, 'High-performance gaming laptop', 99.99",
+            "4,, 'High-performance gaming laptop', 99.99",
+            "4, Apple Airpod,, 1199.99",
+            "4,Laptop, 'High-performance gaming laptop',",
+    })
     @Order(2)
-    void shouldUpdateProductNameAndPriceSuccessfully() {
+    void shouldUpdateProductNameAndPriceSuccessfully(Long id, String name, String description, BigDecimal price) {
         setUp();
         ProductRequest request = ProductRequest.builder()
-                .description("legion X")
-                .name("Lenovo gamer")
-                .price(BigDecimal.ONE)
+                .name(name)
+                .description(description)
+                .price(price)
                 .build();
 
         HttpHeaders httpHeaders = getHeader();
-        HttpEntity<ProductRequest> productRequestHttpEntity = new HttpEntity<>(request, httpHeaders);
-        ResponseEntity<ProductResponse> response = this.restTemplate.exchange(URI.create(Url.API_PRODUCT), HttpMethod.POST, productRequestHttpEntity, ProductResponse.class);
-        ProductResponse productResponse = response.getBody();
-
-        request.setName("Lenovo X 720 ideaPad");
-        request.setPrice(BigDecimal.TEN);
         HttpEntity<ProductRequest> userRequest1 = new HttpEntity<>(request, httpHeaders);
-        ResponseEntity<ProductResponse> response1 = this.restTemplate.exchange(URI.create(Url.API_PRODUCT.concat("/" + productResponse.getId())), HttpMethod.PUT, userRequest1, ProductResponse.class);
+        this.restTemplate.exchange(URI.create(Url.API_PRODUCT.concat("/" + id)), HttpMethod.PUT, userRequest1, ProductResponse.class);
 
-        assertTrue(response1.getStatusCode().is2xxSuccessful());
-        ProductResponse productResponse1 = response1.getBody();
-        assertNotNull(productResponse1);
-        assertNotNull(productResponse1.getId());
-        assertEquals(request.getName(), productResponse1.getName());
-        assertEquals(request.getPrice(), productResponse1.getPrice());
+        ResponseEntity<ProductResponse> response = this.restTemplate.exchange(URI.create(Url.API_PRODUCT.concat("/" + id)), HttpMethod.GET, userRequest1, ProductResponse.class);
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        ProductResponse productResponse = response.getBody();
+        assertNotNull(productResponse);
+        assertEquals(id, productResponse.getId());
+
+        if(Objects.nonNull(name)){
+            assertEquals(name, productResponse.getName());
+        }
+
+        if(Objects.nonNull(description)){
+            assertEquals(description, productResponse.getDescription());
+        }
+
+        if(Objects.nonNull(price)){
+            assertEquals(price.doubleValue(), productResponse.getPrice().doubleValue());
+        }
     }
 
     @Test
