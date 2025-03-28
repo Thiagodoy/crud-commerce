@@ -214,6 +214,29 @@ class ProductControllerIT {
         assertTrue(response.getStatusCode().is4xxClientError());
     }
 
+    @Test
+    @Order(6)
+    void shouldSaveAProductSuccessfully() {
+        setUp();
+
+        ProductRequest request = ProductRequest.builder()
+                .name("PS5")
+                .description("Video Game")
+                .price(BigDecimal.valueOf(399.98))
+                .quantity(1L)
+                .build();
+
+        HttpEntity<ProductRequest> productRequestHttpEntity = new HttpEntity<>(request, getHeader());
+        ResponseEntity<ProductResponse> response = this.restTemplate.exchange(URI.create(Url.API_PRODUCT), HttpMethod.POST, productRequestHttpEntity, ProductResponse.class);
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        ProductResponse productResponse = response.getBody();
+        assertNotNull(productResponse);
+        assertEquals(productResponse.getName(), request.getName());
+        assertEquals(productResponse.getDescription(), request.getDescription());
+        assertEquals(productResponse.getPrice().doubleValue(), request.getPrice().doubleValue());
+    }
+
     private HttpHeaders getHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer ".concat(token));

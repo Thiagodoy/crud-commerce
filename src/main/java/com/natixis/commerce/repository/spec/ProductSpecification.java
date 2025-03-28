@@ -26,13 +26,16 @@ public class ProductSpecification implements Specification<Product> {
     private Optional<String> description = Optional.empty();
     @Builder.Default
     private Optional<BigDecimal> price = Optional.empty();
+    @Builder.Default
+    private Optional<Boolean> enabled = Optional.empty();
 
     @Override
     public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
-        name.ifPresent(value -> predicates.add(criteriaBuilder.like(root.get("name"), "%".concat(value).concat("%"))));
-        description.ifPresent(value -> predicates.add(criteriaBuilder.like(root.get("description"), "%".concat(value).concat("%"))));
+        name.ifPresent(value -> predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%".concat(value).concat("%").toUpperCase())));
+        description.ifPresent(value -> predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), "%".concat(value).concat("%").toUpperCase())));
         price.ifPresent(value -> predicates.add(criteriaBuilder.equal(root.get("price"),value)));
+        enabled.ifPresent(value -> predicates.add(criteriaBuilder.equal(root.get("enabled"),value)));
         return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
     }
 }

@@ -49,12 +49,14 @@ public class ProductController {
             @RequestParam(required = false) Optional<String> name,
             @RequestParam(required = false) Optional<String> description,
             @RequestParam(required = false) Optional<BigDecimal> price,
+            @RequestParam(required = false, defaultValue = "true") Optional<Boolean> enabled,
             @PageableDefault(sort = {"name"}) Pageable page) {
 
         ProductSpecification spec = ProductSpecification.builder()
                 .name(name)
                 .description(description)
                 .price(price)
+                .enabled(enabled)
                 .build();
 
         Page<ProductResponse> response = service.get(spec, page);

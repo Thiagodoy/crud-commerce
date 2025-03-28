@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(a ->
-                    a.requestMatchers(getMatchers()).permitAll().anyRequest().authenticated()
+                        a.requestMatchers(getMatchers()).permitAll().anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -45,9 +45,9 @@ public class WebSecurityConfig {
 
     }
 
-    private RequestMatcher[] getMatchers(){
+    private RequestMatcher[] getMatchers() {
         return new RequestMatcher[]{
-                new AntPathRequestMatcher(Url.API_AUTH),
+                new AntPathRequestMatcher(Url.API_AUTH, "POST"),
                 new AntPathRequestMatcher("/v3/api-docs/**"),
                 new AntPathRequestMatcher("/swagger-ui/**"),
                 new AntPathRequestMatcher("/swagger-ui.html"),

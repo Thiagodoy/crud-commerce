@@ -22,6 +22,6 @@ CREATE TABLE TB_PRODUCT
     description TEXT,
     price       DECIMAL(10, 2) NOT NULL,
     user_id     BIGINT         NOT NULL,
-    enabled     BOOLEAN        NOT NULL DEFAULT TRUE--,
-    --CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES TB_USER (id) ON DELETE CASCADE
+    enabled     BOOLEAN        NOT NULL DEFAULT TRUE,
+    quantity    NUMBER         NOT NULL DEFAULT 1
 );
