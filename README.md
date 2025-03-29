@@ -14,7 +14,7 @@ It includes **Swagger UI** for API documentation and an **H2 in-memory database*
 ---
 
 ###  Access the API:
-- **Swagger UI:** [`http://api.thiagodoy.com:8080/swagger-ui/index.html`](http://api.thiagodoy.com:8080/swagger-ui/index.html)
+- **Swagger UI:** [`http://api.thiagodoy.com/swagger-ui/index.html`](http://api.thiagodoy.com/swagger-ui/index.html)
     - **email:** `natixis@natixis.com`
     - **password:** `123456`
 ---
@@ -30,5 +30,7 @@ It includes **Swagger UI** for API documentation and an **H2 in-memory database*
 - Implement **unit tests**.
 
 ## High Level Diagram
-![alt text](https://github.com/Thiagodoy/crud-commerce/blob/main/doc/naxistia-test.drawio.png)
+
+
+![naxistia-test](https://github.com/user-attachments/assets/aa1a4da6-1139-4b93-aed0-b2f2b600cb28)
 
