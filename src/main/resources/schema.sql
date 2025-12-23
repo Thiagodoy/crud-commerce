@@ -25,3 +25,6 @@ CREATE TABLE TB_PRODUCT
     enabled     BOOLEAN        NOT NULL DEFAULT TRUE,
     quantity    NUMBER         NOT NULL DEFAULT 1
 );
+
+
+CREATE VIEW USER_PRODUCT AS SELECT P.ID, P.name as product_name, P.price, U.name  FROM TB_PRODUCT P INNER JOIN TB_USER U on P.user_id = U.id;

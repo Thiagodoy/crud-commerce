@@ -7,6 +7,7 @@ import com.natixis.commerce.mapper.ProductMapper;
 import com.natixis.commerce.model.Product;
 import com.natixis.commerce.model.User;
 import com.natixis.commerce.repository.ProductRepository;
+import com.natixis.commerce.repository.UserProductRepository;
 import com.natixis.commerce.repository.spec.ProductSpecification;
 import com.natixis.commerce.utils.MessageStatus;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository repository;
+    private final UserProductRepository userProductRepository;
     private final ProductMapper mapper;
 
     @Transactional
@@ -33,7 +36,7 @@ public class ProductService {
         return mapper.toResponse(repository.save(product));
     }
 
-    @Transactional
+    @Transactional(rollbackFor = ServiceException.class)
     public ProductResponse update(Long id, ProductRequest request) {
         return repository.findById(id)
                 .map(entity -> {
@@ -62,5 +65,12 @@ public class ProductService {
         Product product = repository.findById(id)
                 .orElseThrow(() -> new ServiceException(MessageStatus.RECORD_NOT_FOUND));
         return mapper.toResponse(product);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List getUserProduct() {
+
+        return userProductRepository.findAll();
     }
 }
